@@ -34,33 +34,35 @@ public class ExampleController {
 		return "nameSelectionPage";
 	}
 	
+	
+	//查詢姓名為某某的單筆的會員資料(選單頁)
+	//加上jsp頁面(下拉式選單)
 	@RequestMapping(value = "/getMemberByName")
 	public String result(HttpServletRequest request,
 			Map<String, Object> model) {
 		String value = request.getParameter("name");
-		MemberCindy getname = examS.filtername(value);
+		MemberCindy getname = examS.filternamejsp(value);
 		model.put("id", getname.getId());
 		model.put("name", getname.getName());
 		model.put("age", getname.getAge());
 		return "resultPage";
 	}
 	
+	//查詢姓名為某某的單筆的會員資料(結果頁)
 	@RequestMapping("result")
 	public String result() {
 		return "nameSelectionPage";
 	}
 
-	
-	
-	
-	
-	
+
 	//顯示全部資料
 	@GetMapping(value = "/examlist")
 	public List<MemberCindy> getexamlist(){
 		return examS.getexamlist();
 	}
 	
+	
+	//查詢大於等於某個age的會員資料
 	//NativeSql
 	@GetMapping(value = "/age")
 	public List<MemberCindy> age(@RequestParam Integer age){
@@ -73,20 +75,21 @@ public class ExampleController {
 		
 		return examS.age2(age);
 	}
-	
 	//使用list+for迴圈
 	@GetMapping(value = "/agelist")
 	public List<MemberCindy> getagelist(@RequestParam Integer Age){
 		
 		return examS.getagelist(Age);
 	}
-	//method2 使用lambda + stream
+	//使用lambda + stream
 	@GetMapping(value = "/filteragelist")
 	public List<MemberCindy> filteragelist(@RequestParam Integer Age){
 		
 		return examS.filterlist(Age);
 	}
 	
+	
+	//查詢姓名不是null的會員資料
 	//NativeSql
 	@GetMapping(value = "/notnullname")
 	public List<MemberCindy> namenotnull(){
@@ -99,129 +102,123 @@ public class ExampleController {
 			
 		return examS.namenotnull2();
 	}
-	
 	//使用list+for迴圈
 	@GetMapping(value = "/notnullnamelist")
 	public List<MemberCindy> notnullnamelist(){
 			
 		return examS.notnullnamelist();
 	}
-	//method2 使用lambda + stream
+	//使用lambda + stream
 	@GetMapping(value = "/filternotnullnamelist")
 	public List<MemberCindy> filternotnullnamelist(){
 			
 		return examS.filternotnullnamelist();
 	}
 	
+	
+	//查詢姓名為某某的單筆的會員資料
 	//NativeSql
 	@GetMapping(value = "/name")
 	public MemberCindy name(@RequestParam String name){
-			
 		return examS.name(name);
 	}
 	//JPQL
 	@GetMapping(value = "/name2")
-	public MemberCindy name2(@RequestParam String name){
-			
+	public MemberCindy name2(@RequestParam String name){	
 		return examS.name2(name);
 	}
-	
 	//使用for迴圈
 	@GetMapping(value = "/getname")
 	public MemberCindy getname(@RequestParam String name){
-			
 		return examS.getname(name);
 	}
-	//method2 使用lambda + stream
+	//使用lambda + stream
 	@GetMapping(value = "/filtername")
 	public MemberCindy filtername(@RequestParam String name){
-			
 		return examS.filtername(name);
 	}
 	
+	
+	//查詢10~20間age的會員資料
 	//NativeSql
 	@GetMapping(value = "/btage")
-	public List<MemberCindy> betweenage(){
-				
+	public List<MemberCindy> betweenage(){		
 		return examS.betweenage();
 	}
 	//JPQL
 	@GetMapping(value = "/btage2")
-	public List<MemberCindy> betweenage2(){
-				
+	public List<MemberCindy> betweenage2(){	
 		return examS.betweenage2();
 	}
-	
 	//使用list+for迴圈
 	@GetMapping(value = "/getbtagelist")
-	public List<MemberCindy> betweenagelist(){
-				
+	public List<MemberCindy> betweenagelist(){		
 		return examS.betweenagelist();
 	}
-	//method2 使用lambda + stream
+	//使用lambda + stream
 	@GetMapping(value = "/filterbtagelist")
-	public List<MemberCindy> filterbetweenagelist(){
-				
+	public List<MemberCindy> filterbetweenagelist(){		
 		return examS.filterbetweenagelist();
 	}
 	
+	
+	//查詢全部資料且根據age進行倒序排列
 	//NativeSql
 	@GetMapping(value = "/orderByAge")
-	public List<MemberCindy> orderByAge(){
-				
+	public List<MemberCindy> orderByAge(){		
 		return examS.orderByAge();
 	}
 	//JPQL
 	@GetMapping(value = "/orderByAge2")
-	public List<MemberCindy> orderByAge2(){
-				
+	public List<MemberCindy> orderByAge2(){	
 		return examS.orderByAge2();
 	}
-	
 	//使用list
 	@GetMapping(value = "/getdescage")
 	public List<MemberCindy> getAllOrderedByAgeDesc() {
 	    return examS.getAllOrderedByAgeDesc();
 	}
-	//method2 使用lambda + stream
+	//使用lambda + stream
 	@GetMapping(value = "/finddescage")
-	public List<MemberCindy> findAllAndOrderByAgeDesc(){
-					
+	public List<MemberCindy> findAllAndOrderByAgeDesc(){		
 		return examS.findAllAndOrderByAgeDesc();
 	}
 	
-	//NativeSql
-//	@GetMapping(value = "/groupByAge")
-//	public List<AgeRequest> groupByAge(){
-//				
-//		return examS.groupByAge();
-//	}
-//	//JPQL
-//	@GetMapping(value = "/groupByAge2")
-//	public List<AgeRequest> groupByAge2(){
-//				
-//		return examS.groupByAge2();
-//	}
-//	
 	
+	//查詢按age分群的個別人數
+	//NativeSql
+	@GetMapping(value = "/groupByAge")
+	public List<AgeRequest> groupByAge(){
+				
+		return examS.groupByAge();
+	}
+	//JPQL
+	@GetMapping(value = "/groupByAge2")
+	public List<AgeRequest> groupByAge2(){
+				
+		return examS.groupByAge2();
+	}
 	//使用list+for迴圈
 	@GetMapping(value = "/countage")
-	public List<AgeRequest> countByAgeGroup(){
-						
+	public List<AgeRequest> countByAgeGroup(){				
 		return examS.countByAgeGroup();
 	}
 	//使用lambda + stream
 	@GetMapping(value = "/getcountage")
-	public List<String> getCountByAge(){
-						
+	public List<String> getCountByAge(){			
 		return examS.getCountByAge();
 	}
 	
+	
+	//過濾空白資料，name後面加上'S'，最後依照Age排序
+	//使用lambda + stream
 	@GetMapping(value = "/filternameorderbyage")
 	public List<MemberCindy> filterNameOrderByAge(){
 		return examS.filterNameOrderByAge();
 	}
 	
+	
+	//取得一個list只有name，且不重複並排序的資料
 	//NativeSql
 	@GetMapping(value = "/getnamelist")
 	public List<String> getNameList(){		
@@ -232,13 +229,13 @@ public class ExampleController {
 	public List<String> getNameList2(){			
 		return examS.getNameList2();
 	}
-	
+	//使用lambda + stream
 	@GetMapping(value = "/distinctlistname")
-	public List<String> distinctListName(){
-					
+	public List<String> distinctListName(){			
 		return examS.distinctListName();
 	}
 	
+	//取得一個 map，其 key 為 ID；value 為 name
 	//使用list+for迴圈
 	@GetMapping(value = "/getidnamemap")
 	public Map<Integer, String> getIdNameMap(){
@@ -250,12 +247,8 @@ public class ExampleController {
 		return examS.fliterIdNameMap();
 	}
 	
-	@GetMapping(value = "/getfirstfstop")
-	public MemberCindy getFirstFstop(){
-					
-		return examS.getFirstFstop();
-	}
 	
+	//取得第一筆name = FSTOP的資料
 	//NativeSql
 	@GetMapping(value = "/findfirstbynameFstop")
 	public List<MemberCindy> findFirstByNameFSTOP() {
@@ -269,17 +262,21 @@ public class ExampleController {
 	
 	//使用list+for迴圈
 	@GetMapping(value = "/getfirstnameFstop")
-	public MemberCindy getFirstByNameFSTOP(){
-					
+	public MemberCindy getFirstByNameFSTOP(){		
 		return examS.getFirstByNameFSTOP();
 	}
 	//使用lambda + stream
-	@GetMapping(value = "/fliterfirstnameFstop")
-	public MemberCindy fliterFirstByNameFSTOP(){
-					
-		return examS.fliterFirstByNameFSTOP();
+	@GetMapping(value = "/filterfirstnameFstop")
+	public MemberCindy filterFirstByNameFSTOP(){		
+		return examS.filterFirstByNameFSTOP();
+	}
+	@GetMapping(value = "/getfirstfstop")
+	public MemberCindy getFirstFstop(){		
+		return examS.getFirstFstop();
 	}
 	
+	
+	//將資料先依據age排序，再依據id排序
 	//NativeSql
 	@GetMapping(value = "/findorderbyagethenbyid")
 	public List<MemberCindy> findOrderByAgeThenById(){
@@ -290,16 +287,17 @@ public class ExampleController {
 	public List<MemberCindy> findOrderByAgeThenById2(){
 		return examS.findOrderByAgeThenById2();
 	}
-	
+	//使用lambda + stream
 	@GetMapping(value = "/sortbyidandname")
-	public List<MemberCindy> sortByIdAndAge(){
-					
+	public List<MemberCindy> sortByIdAndAge(){		
 		return examS.sortByIdAndAge();
 	}
 	
+	
+	//取得一個 string 為所有資料的 name, age|name, age
+	//使用lambda + stream
 	@GetMapping(value = "/getalldataasstring")
-	public String getAllDataAsString(){
-					
+	public String getAllDataAsString(){		
 		return examS.getAllDataAsString();
 	}
 

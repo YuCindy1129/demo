@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ExampleRepository;
@@ -21,6 +22,11 @@ public class ExampleService {
 
 	@Autowired
 	private ExampleRepository examR;
+	
+	public MemberCindy insert(MemberCindy ins) {
+		return examR.save(ins);
+	}
+	
 	// 取得所有名字的方法
     public List<String> getAllNames() {
         return examR.findAllNames();
@@ -254,6 +260,8 @@ public class ExampleService {
     	return all.stream()
     			//Collectors.groupingBy 按指定條件，將資料進行分組。(MemberCindy::getAge, Collectors.counting())(分組條件, 收集器，用於計算每個分組的資料數量)
                 .collect(Collectors.groupingBy(MemberCindy::getAge, Collectors.counting()))
+                //使用Collectors.groupingBy後會創建一個map。entrySet會返回Map.Entry，就是鍵值對的接口(所有鍵值配對的集合)，用來獲取鍵和值
+                //entrySet會返回一對一對的鍵值對ex：[age8：count2]
                 .entrySet().stream()
                 .map(entry -> "Age: " + entry.getKey() + ", Count: " + entry.getValue())
                 .collect(Collectors.toList());

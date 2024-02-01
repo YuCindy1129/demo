@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,10 @@ public class ExampleController {
 		return "nameSelectionPage";
 	}
 	
+	@PostMapping(value="/insert")
+	public MemberCindy inser(@RequestBody MemberCindy ins){
+		return examS.insert(ins);
+	}
 	
 	//查詢姓名為某某的單筆的會員資料(選單頁)
 	//加上jsp頁面(下拉式選單)
@@ -48,13 +53,14 @@ public class ExampleController {
 		return "resultPage";
 	}
 	
+	
 	//查詢姓名為某某的單筆的會員資料(結果頁)
 	@RequestMapping("result")
 	public String result() {
 		return "nameSelectionPage";
 	}
 
-
+	
 	//顯示全部資料
 	@GetMapping(value = "/examlist")
 	public List<MemberCindy> getexamlist(){
